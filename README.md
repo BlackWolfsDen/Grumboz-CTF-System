@@ -16,3 +16,6 @@ the `CTF_spawn_timer` is the adjustable timer value for duration between CFG rou
 easy to add new world flag locations.
  * just find a random spot and add the gps coordinates (map, x, y, z, o)to the `world_flag_loc` table then restart core.
  * the world flag can be placed at any location now, the script will compensate for zone/map changes when flag bearrer teleports.
+
+It has issues with trying to spawn a GO inside an un-loaded map. 
+so this has been buggin me for a while so now i'm working on a new version that will completely avoid this issue.
