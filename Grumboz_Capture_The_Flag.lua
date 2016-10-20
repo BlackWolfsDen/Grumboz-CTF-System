@@ -26,9 +26,9 @@ print("* Capture The Flag System Loading *");
 
 local CTF = 1; -- system operation switch. 0=system off/1=system on
 local wil_o_whisp = 1; -- default == 1/on(world flag random spawning on)
-local non_stop_action = 0; -- default 0 // 0=off/1=on
+local non_stop_action = 0; -- default 0 // 0=off/1=on :: on = no cooldown between rounds.
 local hint = 0; -- announce the zone the world flag spawned in 0 = off / 1 = announce to holding team / 2 = announce to both teams
-local required_players = 4; -- minimum required players
+local required_players = 2; -- minimum required players
 local CTF_Player_Check = 10000; -- in ms. :: when not minimum players this timer will check often for minimum players
 local CTF_round_timer = 1800000; -- in ms. :: Default = 1800000 :: 300000 = 5 minutes // 600000 = 10 minutes // 900000 = 15 minutes //  1800000 = 30 minutes
 local CTF_spawn_timer = 600000; -- in ms. :: Default = 1800000 :: 300000 = 5 minutes // 600000 = 10 minutes // 900000 = 15 minutes //  1800000 = 30 minutes
@@ -189,9 +189,10 @@ end
 
 local function Spawn_World_Flag()
 
-math.randomseed(GetGameTime()*GetGameTime())
+local rndseed = (os.time()*os.time());
+math.randomseed(rndseed);
 	
-	local loc = 0
+	local loc = 0;
 	
 		if(wil_o_whisp > 0)then
 			loc = math.random(1, #World_flag_loc);
@@ -239,7 +240,7 @@ local function Spawn_Flags()
 	Spawn_World_Flag();
 	
 		if(non_stop_action == 0)then 
-			CreateLuaEvent(RemoveAllAuras, ((World_CTF.Start + CTF_round_timer) - GetGameTime()), 1);
+			CreateLuaEvent(RemoveAllAuras, ((World_CTF.Start + CTF_round_timer) - os.time()), 1);
 		end
 		
 --	print("CTF_ROUND_START")
@@ -407,7 +408,7 @@ World_CTF.gear = (World_CTF.gear + 1);
 
 	if(World_CTF.gear == 1)then
 	
-		World_CTF.Start = GetGameTime();
+		World_CTF.Start = os.time();
 
 			if(pIw >= required_players)then
 				World_CTF.service = 0;
