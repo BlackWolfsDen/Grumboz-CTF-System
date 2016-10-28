@@ -339,20 +339,27 @@ RegisterPlayerEvent(36, clear_aura) -- revive
 
 local function Return_Flag(event, a, b)
 
-if(event == (6 or 8))then player = b else player = a; end
-
-	if(player:InBattleground() == false)then
-
-		if(player:GetGUIDLow() == (World_CTF.Alliance or World_CTF.Horde))then
-			ClearFlagHolder(player:GetTeam());
-			
-				if(World_CTF.flag_allow == 1)then
-					Spawn_Team_Flags(player:GetTeam());
+	if(event)then
+	
+		if(event == (6 or 8))then player = b else player = a; end
+		
+		if(player)then
+		
+			if(player:GetMap():IsBattleground() == false)then
+	
+				if(player:GetGUIDLow() == (World_CTF.Alliance or World_CTF.Horde))then
+	
+					ClearFlagHolder(player:GetTeam());
+					
+						if(World_CTF.flag_allow == 1)then
+							Spawn_Team_Flags(player:GetTeam());
+						end
 				end
+			end
 		end
 	end
 end
-
+	
 RegisterPlayerEvent(4, Return_Flag) -- logout
 RegisterPlayerEvent(6, Return_Flag) -- die by plr
 RegisterPlayerEvent(8, Return_Flag) -- die by npc
